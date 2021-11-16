@@ -20,7 +20,7 @@ public class ComparisonCompactor {
 	}
 	
 	public String compact(String message) {
-		if(fExpected == null || fActual == null || areStringEqual()) 
+		if(shouldNotCompact()) 
 			return Assert.format(message, fExpected, fActual);
 		
 		findCommonPrefix();
@@ -28,6 +28,10 @@ public class ComparisonCompactor {
 		String expected = compactString(fExpected);
 		String actual = compactString(fActual);
 		return Assert.format(message, expected, actual);
+	}
+	
+	private boolean shouldNotCompact() {
+		return fExpected == null || fActual == null || areStringEqual();
 	}
 	
 	private void findCommonPrefix() {
