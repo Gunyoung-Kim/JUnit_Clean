@@ -8,7 +8,7 @@ public class ComparisonCompactor {
 	
 	private int contextLength;
 	private String expected;
-	private String fActual;
+	private String actual;
 	private int fPrefix;
 	private int fSuffix;
 	
@@ -16,40 +16,40 @@ public class ComparisonCompactor {
 		super();
 		this.contextLength = contextLength;
 		this.expected = expected;
-		this.fActual = actual;
+		this.actual = actual;
 	}
 	
 	public String compact(String message) {
 		if(shouldNotCompact()) 
-			return Assert.format(message, expected, fActual);
+			return Assert.format(message, expected, actual);
 		
 		findCommonPrefix();
 		findCommonSuffix();
 		String expected = compactString(this.expected);
-		String actual = compactString(fActual);
+		String actual = compactString(this.actual);
 		return Assert.format(message, expected, actual);
 	}
 	
 	private boolean shouldNotCompact() {
-		return expected == null || fActual == null || areStringEqual();
+		return expected == null || actual == null || areStringEqual();
 	}
 	
 	private void findCommonPrefix() {
 		fPrefix = 0;
-		int end = Math.min(expected.length(), fActual.length());
+		int end = Math.min(expected.length(), actual.length());
 		for(; fPrefix < end; fPrefix++) {
-			if(expected.charAt(fPrefix) != fActual.charAt(fPrefix))
+			if(expected.charAt(fPrefix) != actual.charAt(fPrefix))
 				break;
 		}
 	}
 	
 	private void findCommonSuffix() {
 		int expectedSuffix = expected.length() - 1;
-		int actualSuffix = fActual.length() - 1;
+		int actualSuffix = actual.length() - 1;
 		for(;
 			actualSuffix >= fPrefix && expectedSuffix >= fPrefix;
 			actualSuffix--, expectedSuffix--) {
-			if(expected.charAt(expectedSuffix) != fActual.charAt(actualSuffix))
+			if(expected.charAt(expectedSuffix) != actual.charAt(actualSuffix))
 				break;
 		}
 		fSuffix = expected.length() - expectedSuffix;
@@ -76,6 +76,6 @@ public class ComparisonCompactor {
 	}
 	
 	private boolean areStringEqual() {
-		return expected.equals(fActual);
+		return expected.equals(actual);
 	}
 }
