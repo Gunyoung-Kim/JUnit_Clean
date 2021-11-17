@@ -20,18 +20,18 @@ public class ComparisonCompactor {
 	}
 	
 	public String compact(String message) {
-		if(shouldNotCompact()) 
-			return Assert.format(message, expected, actual);
-		
-		findCommonPrefix();
-		findCommonSuffix();
-		String compactExpected = compactString(this.expected);
-		String compactActual = compactString(this.actual);
-		return Assert.format(message, compactExpected, compactActual);
+		if(canBeCompacted()) {
+			findCommonPrefix();
+			findCommonSuffix();
+			String compactExpected = compactString(this.expected);
+			String compactActual = compactString(this.actual);
+			return Assert.format(message, compactExpected, compactActual);
+		}
+		return Assert.format(message, expected, actual);
 	}
 	
-	private boolean shouldNotCompact() {
-		return expected == null || actual == null || areStringEqual();
+	private boolean canBeCompacted() {
+		return expected != null && actual != null && !areStringEqual();
 	}
 	
 	private void findCommonPrefix() {
