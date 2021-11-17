@@ -35,7 +35,7 @@ public class ComparisonCompactor {
 	}
 	
 	private boolean shouldNotBeCompacted() {
-		return expected == null || actual == null && areStringEqual();
+		return expected == null || actual == null &&  expected.equals(actual);
 	}
 	
 	private void compactExpectedAndActual(String message) {
@@ -106,9 +106,5 @@ public class ComparisonCompactor {
 	
 	private String endingEllipsis() {
 		return expected.length() - suffixLength < expected.length() - contextLength ? ELLIPSIS : "";
-	}
-	
-	private boolean areStringEqual() {
-		return expected.equals(actual);
 	}
 }
