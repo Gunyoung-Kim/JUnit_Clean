@@ -70,14 +70,15 @@ public class ComparisonCompactor {
 		return s.charAt(s.length() - i - 1);
 	}
 	
-	private String compactString(String source) {
+	private String compactString(String s) {
 		return new StringBuilder()
 				.append(startingEllipsis())
 				.append(startingContext())
 				.append(DELTA_START)
-				.append(source.substring(prefixLength, source.length() - suffixLength))
+				.append(delta(s))
 				.append(DELTA_END)
-				.append(computeCommonSuffix())
+				.append(endingContext())
+				.append(endingEllipsis())
 				.toString();
 	}
 	
@@ -91,10 +92,20 @@ public class ComparisonCompactor {
 		return expected.substring(contextStart, contextEnd);
 	}
 	
-	private String computeCommonSuffix() {
-		int end = Math.min(expected.length() - suffixLength + contextLength, expected.length());
-		return expected.substring(expected.length() - suffixLength, end) + 
-				(expected.length() - suffixLength < expected.length() - contextLength ? ELLIPSIS : "");
+	private String delta(String s) {
+		int deltaStart = prefixLength;
+		int deltaEnd = s.length() - suffixLength;
+		return s.substring(deltaStart, deltaEnd);
+	}
+	
+	private String endingContext() {
+		int contextStart = expected.length() - suffixLength;
+		int contextEnd = Math.min(contextStart + contextLength, expected.length());
+		return expected.substring(contextStart, contextEnd);
+	}
+	
+	private String endingEllipsis() {
+		return expected.length() - suffixLength < expected.length() - contextLength ? ELLIPSIS : "";
 	}
 	
 	private boolean areStringEqual() {
