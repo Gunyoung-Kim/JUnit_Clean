@@ -71,11 +71,13 @@ public class ComparisonCompactor {
 	}
 	
 	private String compactString(String source) {
-		return computeCommonPrefix() + 
-			   DELTA_START + 
-			   source.substring(prefixLength, source.length() - suffixLength) + 
-			   DELTA_END + 
-			   computeCommonSuffix();
+		return new StringBuilder()
+				.append(computeCommonPrefix())
+				.append(DELTA_START)
+				.append(source.substring(prefixLength, source.length() - suffixLength))
+				.append(DELTA_END)
+				.append(computeCommonSuffix())
+				.toString();
 	}
 	
 	private String computeCommonPrefix() {
