@@ -42,8 +42,9 @@ public class ComparisonCompactor {
 	
 	private void findCommonPrefixAndSuffix() {
 		findCommonPrefix();
-		int expectedSuffix = expected.length() - 1;
-		int actualSuffix = actual.length() - 1;
+		int suffixLength = 1;
+		int expectedSuffix = expected.length() - suffixLength;
+		int actualSuffix = actual.length() - suffixLength;
 		for(;
 			actualSuffix >= prefixIndex && expectedSuffix >= prefixIndex;
 			actualSuffix--, expectedSuffix--) {
