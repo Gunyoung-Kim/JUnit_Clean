@@ -19,7 +19,7 @@ public class ComparisonCompactor {
 		this.actual = actual;
 	}
 	
-	public String compact(String message) {
+	public String formatCompactedComparison(String message) {
 		if(canBeCompacted()) {
 			findCommonPrefix();
 			findCommonSuffix();
