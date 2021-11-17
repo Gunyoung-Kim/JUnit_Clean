@@ -19,15 +19,22 @@ public class ComparisonCompactor {
 		this.actual = actual;
 	}
 	
+	private String compactExpected;
+	private String compactActual;
+	
 	public String formatCompactedComparison(String message) {
 		if(canBeCompacted()) {
-			findCommonPrefix();
-			findCommonSuffix();
-			String compactExpected = compactString(this.expected);
-			String compactActual = compactString(this.actual);
+			compactExpectedAndActual(message);
 			return Assert.format(message, compactExpected, compactActual);
 		}
 		return Assert.format(message, expected, actual);
+	}
+	
+	private void compactExpectedAndActual(String message) {
+		findCommonPrefix();
+		findCommonSuffix();
+		compactExpected = compactString(expected);
+		compactActual = compactString(actual);
 	}
 	
 	private boolean canBeCompacted() {
